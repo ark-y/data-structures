@@ -51,7 +51,10 @@ struct LinkedList {
     
     // TODO: determine what should the input of the method be and implement it
     void set_index(...) {
-
+        Node* node_at_index = get_node_at_index(index);
+        if (node_at_index != nullptr) {
+            node_at_index->item = item;
+        }
     }
     
     void display() {
