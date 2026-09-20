@@ -58,9 +58,12 @@ struct LinkedList {
     }
     
     void display() {
-        // This method is not marked (it's optional)
-        // But it will be very helpful for your debugging to have a method that
-        // prints what's in the linked list currently.
+        Node* temp = head;
+        while (temp != nullptr) {
+            cout << temp->item << " ";
+            temp = temp->next;
+        }
+        cout << endl;
     }
 };
 
