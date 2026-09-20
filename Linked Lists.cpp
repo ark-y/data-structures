@@ -41,7 +41,12 @@ struct LinkedList {
     }
     
     Node* get_node_at_index(int index) {
-
+        Node* current_node = head;
+        while (index > 0 && current_node != nullptr) {
+            current_node = current_node->next;
+            index--;
+        }
+        return current_node;
     }
     
     // TODO: determine what should the input of the method be and implement it
