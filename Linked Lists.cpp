@@ -5,29 +5,48 @@ template <typename T>
 struct Node {
 
     T value; 
-    int size;
     Node *next = nullptr;
     Node *prev = nullptr;
 
 };
 
+template <typename T>
 struct LinkedList {
-    Node* first_node = nullptr;
+    Node* head = nullptr;
+    Node* tail = nullptr;
     
     int size = 0;
     
     // TODO: determine what should the input of the method be and implement it
     void append(...) {
-        // ...
+        Node* new_node_ptr = new Node;
+        new_node_ptr->item = item;
+
+        // If there are no nodes in my chain, this will be the first and last one
+        if (head == nullptr) {
+            head = tail = new_node_ptr;
+            new_node_ptr->prev = nullptr; //nth before so null
+
+            size++;
+            
+            return;
+        }
+
+        // Last one is already stored so add the pointer to the last one
+        tail->next = new_node_ptr;
+        new_node_ptr->prev = tail; //store prev 
+        tail = new_node_ptr; 
+
+        size++
     }
     
     Node* get_node_at_index(int index) {
-        // ...
+
     }
     
     // TODO: determine what should the input of the method be and implement it
     void set_index(...) {
-        // ...
+
     }
     
     void display() {
@@ -37,7 +56,7 @@ struct LinkedList {
     }
 };
 
-/// Test the linked list implementation
+template <typename T>
 int main() {
     LinkedList list;
     list.append(10);
