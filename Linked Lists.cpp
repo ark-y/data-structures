@@ -4,7 +4,7 @@ using namespace std;
 template <typename T>
 struct Node {
 
-    T value; 
+    T item; 
     Node *next = nullptr;
     Node *prev = nullptr;
 
@@ -12,14 +12,14 @@ struct Node {
 
 template <typename T>
 struct LinkedList {
-    Node* head = nullptr;
-    Node* tail = nullptr;
+    Node<T>* head = nullptr;
+    Node<T>* tail = nullptr;
     
     int size = 0;
     
     // TODO: determine what should the input of the method be and implement it
-    void append(...) {
-        Node* new_node_ptr = new Node;
+    void append(T item) {
+        Node* new_node_ptr = new Node<T>;
         new_node_ptr->item = item;
 
         // If there are no nodes in my chain, this will be the first and last one
@@ -37,11 +37,11 @@ struct LinkedList {
         new_node_ptr->prev = tail; //store prev 
         tail = new_node_ptr; 
 
-        size++
+        size++;
     }
     
-    Node* get_node_at_index(int index) {
-        Node* current_node = head;
+    Node<T>* get_node_at_index(int index) {
+        Node<T>* current_node = head;
         while (index > 0 && current_node != nullptr) {
             current_node = current_node->next;
             index--;
@@ -50,15 +50,15 @@ struct LinkedList {
     }
     
     // TODO: determine what should the input of the method be and implement it
-    void set_index(...) {
-        Node* node_at_index = get_node_at_index(index);
+    void set_index(int index, T item) {
+        Node<T>* node_at_index = get_node_at_index(index);
         if (node_at_index != nullptr) {
             node_at_index->item = item;
         }
     }
     
     void display() {
-        Node* temp = head;
+        Node<T>* temp = head;
         while (temp != nullptr) {
             cout << temp->item << " ";
             temp = temp->next;
@@ -67,9 +67,8 @@ struct LinkedList {
     }
 };
 
-template <typename T>
 int main() {
-    LinkedList list;
+    LinkedList<int> list;
     list.append(10);
     list.append(20);
     list.append(30);
