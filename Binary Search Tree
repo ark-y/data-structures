@@ -1,0 +1,27 @@
+#include <iostream>
+
+using namespace std;
+
+struct Node {
+    int value;
+    // I'm asking C++ to automatically assign these pointers a null
+    // value when a new Node is created.
+    Node* left = nullptr;
+    Node* right = nullptr;
+};
+
+struct BinarySearchTree {
+    Node* root = nullptr;
+
+    Node* search(int value) {
+        // ...
+    }
+
+    void insert(int value) {
+        // ...
+    }
+
+    void remove(int value) {
+        // ...
+    }
+};
