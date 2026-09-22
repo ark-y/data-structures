@@ -1,0 +1,92 @@
+#include <iostream>
+
+using namespace std;
+
+struct Node {
+    int value;
+    Node* left;
+    Node* right;
+
+    // Helper method that allows me quickly check whether this node
+    // is a leaf node
+    bool is_leaf() {
+        return left == nullptr && right == nullptr;
+    }
+};
+
+struct BinaryTree {
+    Node* root;
+
+    int get_max_value() {
+        // This method doesn't take any parameters, but I want to have
+        // a recursive function that takes the current node as its parameter.
+        // That way, I'll start from the root, and every time I pass one of the
+        // children to the recursive call.
+
+        // So I need to make another helper method to do that, and I'll just
+        // call that here with the root node being the first one I pass:
+        return get_max_value_helper(root);
+    }
+
+    int get_max_value_helper(Node* current_node) {
+        // If we are at a leaf node, the max value is just the value of this
+        if (current_node->is_leaf()) {
+            return current_node->value;
+        }
+
+        // Otherwise, there is at least one child
+        int current_max = current_node->value;
+
+        // Check the left subtree
+        if (current_node->left != nullptr) {
+            int left_max = get_max_value_helper(current_node->left);
+            if (left_max > current_max) {
+                current_max = left_max;
+            }
+        }
+
+        // Check the right subtree
+        if (current_node->right != nullptr) {
+            int right_max = get_max_value_helper(current_node->right);
+            if (right_max > current_max) {
+                current_max = right_max;
+            }
+        }
+
+        return current_max;
+    }
+};
+
+int main() {
+    // Let's test our code!
+
+    BinaryTree tree;
+    tree.root = new Node;
+    tree.root->value = 12;
+
+    tree.root->left = new Node;
+    tree.root->left->value = 19;
+    tree.root->left->left = new Node;
+    tree.root->left->left->value = 5;
+    tree.root->left->left->left = nullptr;
+    tree.root->left->left->right = nullptr;
+    
+    tree.root->left->right = new Node;
+    tree.root->left->right->value = 42;
+    tree.root->left->right->left = nullptr;
+    tree.root->left->right->right = nullptr;
+
+    tree.root->right = new Node;
+    tree.root->right->value = 8;
+    tree.root->right->left = nullptr;
+    
+    tree.root->right->right = new Node;
+    tree.root->right->right->value = 14;
+    tree.root->right->right->left = nullptr;
+    tree.root->right->right->right = nullptr;
+
+    // This should print 42
+    cout << "Max value: " << tree.get_max_value() << endl;
+
+    return 0;
+}
