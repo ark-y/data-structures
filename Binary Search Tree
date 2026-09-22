@@ -92,7 +92,103 @@ struct BinarySearchTree {
         }
     }
 
-    void remove(int value) {
-        // ...
+    void delete_value(int value) {
+        // First make sure the tree isn't empty
+        if (root == nullptr) throw "Value not found, tree is empty";
+        _delete_helper(nullptr, root, value);
+    }
+
+    void _delete_helper(Node* parent_node, Node* current_node, int value) {
+        // Base case: is this the node that should be deleted?
+        if (current_node->value == value) {
+            // Scenario 1: if it's a leaf, nothing needs to be done.
+            // Just remove the link from the parent to this, and delete
+            // it from the memory
+            if (current_node->is_leaf()) {
+                // First delete this node
+                delete current_node;
+                // Then update its parent's link
+                if (parent_node == nullptr) {
+                    // It's the root node, and it doesn't have children
+                    // So just assign the root to null
+                    root = nullptr;
+                } else if (parent_node->left == current_node) {
+                    // It was the left child of its parent
+                    parent_node->left = nullptr;
+                } else if (parent_node->right == current_node) {
+                    // It was the right child of its parent
+                    parent_node->right = nullptr;
+                }
+            }
+            // Scenario 2: it only has one child, which we should move up
+            else if (current_node->has_left() && !current_node->has_right()) {
+                // It has a left child
+                if (parent_node == nullptr) {
+                    // If this is the root, bringing up its child node means
+                    // making it the new root node
+                    root = current_node->left;
+                    delete current_node;
+                } else if (parent_node->left == current_node) {
+                    // If this is the left child of its parent...
+                    parent_node->left = current_node->left;
+                    delete current_node;
+                } else if (parent_node->right == current_node) {
+                    // If this is the right child of its parent...
+                    parent_node->right = current_node->left;
+                    delete current_node;
+                }
+            } else if (!current_node->has_left() && current_node->has_right()) {
+                // It has a right child
+                if (parent_node == nullptr) {
+                    root = current_node->right;
+                    delete current_node;
+                } else if (parent_node->left == current_node) {
+                    parent_node->left = current_node->right;
+                    delete current_node;
+                } else if (parent_node->right == current_node) {
+                    parent_node->right = current_node->right;
+                    delete current_node;
+                }
+            }
+            // Scenario 3: the node has both children, so I should actually
+            // find the successor
+            else if (current_node->has_left() && current_node->has_right()) {
+                // I define a new method dedicated to finding the successor of
+                // a node below, and I call it here:
+                Node* successor = successor_of(current_node);
+                // Remember its value
+                int successor_value = successor->value;
+                // Delete the successor recursively
+                delete_value(successor_value);
+                // Put its value in the current node
+                current_node->value = successor_value;
+            }
+
+            return;
+        }
+
+        // Otherwise, we need to continue our search for the node:
+        if (value < current_node->value) {
+            // If we need to go left, but there is no left, throw error
+            if (!current_node->has_left()) throw "Value not found";
+            // Otherwise, recurse. In the recursive call, the parent node
+            // will be what's currently the `current_node`.
+            _delete_helper(current_node, current_node->left, value);
+        } else {
+            if (!current_node->has_right()) throw "Value not found";
+            _delete_helper(current_node, current_node->right, value);
+        }
+    }
+
+    // Returns the node that contains the successor value of the input node
+    // Based on the logic above, it is assumed that the input `node`
+    // has both children.
+    Node* successor_of(Node* node) {
+        // Go right once (no need to check there is a right - there must be)
+        node = node->right;
+        // Go left as much as possible
+        while (node->has_left()) node = node->left;
+        // Return
+        return node;
     }
 };
