@@ -32,8 +32,49 @@ struct BinarySearchTree {
         }
     }
 
-    void insert(int value) {
-        // ...
+        bool insert(int value) {
+        // First, if the tree is empty, just make this the root node
+        if (root == nullptr) {
+            root = new Node;
+            root->value = value;
+            // The item wasn't found, so we return true (indicating an insert happened)
+            return true;
+        }
+        // Again, I need a helper function to handle my recursion input
+        return _insert_helper(root, value);
+    }
+
+    bool _insert_helper(Node* current_node, int value) {
+        // If this node has the value, return as the value is already in the tree.
+        // Tell the caller that the value is not a new node.
+        // We are defining that if the function returns false, that means the item was already in the tree
+        if (current_node->value == value) return false;
+
+        // Check which direction we should go
+        if (value > current_node->value) {
+            // We should go to the right
+            // If there is no right child, that means this is exactly where
+            // the new node should be inserted
+            if (current_node->right == nullptr) {
+                current_node->right = new Node;
+                current_node->right->value = value;
+                // Item was unique and an insertion happened, so we return true.
+                return true;
+            }
+            // Otherwise, if there is a right child, continue there
+            return _insert_helper(current_node->right, value);
+        } else {
+            // We should go to the left
+            // If there is no left child, that means this is exactly where
+            // the new node should be inserted
+            if (current_node->left == nullptr) {
+                current_node->left = new Node;
+                current_node->left->value = value;
+                return true;
+            }
+            // Otherwise, if there is a left child, continue there
+            return _insert_helper(current_node->left, value);
+        }
     }
 
     void remove(int value) {
