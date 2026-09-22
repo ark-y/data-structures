@@ -13,8 +13,23 @@ struct Node {
 struct BinarySearchTree {
     Node* root = nullptr;
 
+    /// Return the node in the tree with this value. If there is no such node, return nullptr.
     Node* search(int value) {
-        // ...
+        return _search_helper(root, value);
+    }
+
+    Node* _search_helper(Node* current_node, int value) {
+        // If we are outside the tree, that means the value can't be found
+        if (current_node == nullptr) return nullptr;
+        // If current_node node has the value, return it
+        if (current_node->value == value) return current_node;
+
+        // Otherwise, check which child we should go to.
+        if (value > current_node->value) {
+            return _search_helper(current_node->right, value);
+        } else {
+            return _search_helper(current_node->left, value);
+        }
     }
 
     void insert(int value) {
