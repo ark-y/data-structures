@@ -8,6 +8,21 @@ struct Node {
     // value when a new Node is created.
     Node* left = nullptr;
     Node* right = nullptr;
+
+    bool has_left() {
+        // if left is something other than null, that means there is a child
+        return left != nullptr;
+    }
+
+    bool has_right() {
+        return right != nullptr;
+    }
+
+    bool is_leaf() {
+        // If it doesn't have a left child and it doesn't have a right child, it
+        // must be a leaf node.
+        return !has_left() && !has_right();
+    }
 };
 
 struct BinarySearchTree {
