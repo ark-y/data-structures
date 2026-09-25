@@ -59,6 +59,44 @@ struct LinkedList
         return current_node;
     }
 
+    void remove(int index)
+    {
+        if (index > size - 1 || index < 0) //if index is out of bounds 
+        {
+            cout << "Index out of bounds" << endl;
+            return;
+        }
+
+        Node<T> *deleted_node = get_node_at_index(index);
+
+        if (deleted_node == head && head == tail) // edge case if this node is the only node
+        {
+            head = tail = nullptr;
+        }
+        else if (deleted_node == tail) // edge case if this node is the tail
+        {
+            tail = deleted_node->prev;
+            tail->next = nullptr;
+
+        }
+        else if (deleted_node == head) // edge case if this node is the head
+        {
+            head = deleted_node->next;
+            head->prev = nullptr;
+
+        } else {
+            // if its in the middle somewhere
+            Node<T> *temp_prev = deleted_node->prev;
+            Node<T> *temp_next = deleted_node->next;
+
+            temp_prev->next = deleted_node->next;
+            temp_next->prev = temp_prev;
+        }
+
+        delete (deleted_node);
+        size--;
+    }
+
     // TODO: determine what should the input of the method be and implement it
     void set_index(int index, T item)
     {
