@@ -47,7 +47,7 @@ struct BinarySearchTree {
         }
     }
 
-        bool insert(int value) {
+    bool insert(int value) {
         // First, if the tree is empty, just make this the root node
         if (root == nullptr) {
             root = new Node;
