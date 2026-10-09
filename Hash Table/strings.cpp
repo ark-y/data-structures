@@ -32,6 +32,26 @@ int string_to_int(string s){
     return result;
 }
 
+
+string int_to_string(int x) {
+    string result = "";
+
+    if (x == 0) {
+        return result = "0";
+    }
+
+    while (x > 0) {
+        int digit = x % 10;
+        char c = digit + '0';
+
+        result = c + result;
+        x = x / 10;
+    }
+
+    return result;
+}
+
+
 int main() {
     try {
         cout << string_to_int("1234") << endl;
@@ -41,6 +61,10 @@ int main() {
     catch (const char* error) {
         cout << "Error: " << error << endl;
     }
+
+    cout << int_to_string(1234) << endl;
+    cout << int_to_string(0) << endl;
+    // cout << string_to_int(-1) << endl; //doesnt even compile
 
     return 0;
 }
