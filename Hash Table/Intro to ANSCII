@@ -1,0 +1,10 @@
+/*Intro to ASCII
+- converting between types 
+- getting the ASCII value of a string 
+- getting the string of a ASCII value array 
+*/
+
+#include <iostream>
+#include <string>
+using namespace std;
+
